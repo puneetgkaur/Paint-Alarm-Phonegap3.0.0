@@ -1,0 +1,1556 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="viewport" content="initial-scale=1,width=device-width,height=device-height, target-densitydpi=device-dpi"/>
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+	<link rel="stylesheet" href="lib/jquery/jquery.mobile-1.3.2.min.css" />
+        <link rel="stylesheet" type="text/css" href="paint.css" />
+        <link rel="stylesheet" type="text/css" href="css/spectrum.css" />
+     
+	<script src="lib/jquery/jquery-1.9.1.min.js"></script>
+	<script src="lib/jquery/jquery.mobile-1.3.2.min.js"></script>
+	<script src="lib/jquery/jquery.mobile-1.3.2.min.js"></script>
+        <script src="js/spectrum.js"></script>
+        <script src="js/verticalSlider.js"></script>
+        <script type="text/javascript" charset="utf-8" src="js/SavePhotoPlugin.js"></script>
+        <!--<script src="js/dropbox.js"></script>-->
+	<script src="js/dropbox_sync.js"></script>
+	<script src="js/dropbox_sync1.js"></script>
+	<script src="js/dropbox_sync2.js"></script>
+<script type="text/javascript" src="js/click.js"></script>
+    <script>
+
+    var pictureSource;   // picture source
+    var destinationType; // sets the format of returned value
+    var draw_canvas_image1=0;var draw_canvas_image2=0;
+    // Wait for device API libraries to load
+    //
+    //document.addEventListener("deviceready",onDeviceReady,false);
+	$(document).on('pageinit','#Paint', function(){
+		pictureSource=navigator.camera.PictureSourceType;
+		destinationType=navigator.camera.DestinationType;
+		
+	});
+
+    // device APIs are available
+    //
+    /*
+    function onDeviceReady() {
+        pictureSource=navigator.camera.PictureSourceType;
+        destinationType=navigator.camera.DestinationType;
+    }
+    */
+    // Called when a photo is successfully retrieved
+    //
+    function onPhotoDataSuccess(imageData) {
+
+var myCanvas = document.getElementById('canvas_paint');
+var ctx = myCanvas.getContext('2d');
+var img = new Image;
+img.src ="data:image/jpeg;base64," + imageData;
+img.onload = function(){
+  ctx.drawImage(img,0,0,400,400); // Or at whatever offset you like
+};
+
+      // Uncomment to view the base64-encoded image data
+      console.log(imageData);
+
+      // Get image handle
+      //
+      var smallImage = document.getElementById('smallImage');
+
+      // Unhide image elements
+      //
+      smallImage.style.display = 'block';
+
+      // Show the captured photo
+      // The inline CSS rules are used to resize the image
+      //
+      smallImage.src = "data:image/jpeg;base64," + imageData;
+/*
+      //draw the image on the canvas
+      var ctx=get_canvas_context();
+      ctx.drawImage(smallImage,10,10);
+*/
+alert("filepath of the smallImage"+smallImage.src);
+	
+	draw_canvas_image1=1;
+    }
+
+    // Called when a photo is successfully retrieved
+    //
+    function onPhotoURISuccess(imageURI) {
+      // Uncomment to view the image file URI
+      console.log(imageURI);
+
+var myCanvas = document.getElementById('canvas_paint');
+var ctx = myCanvas.getContext('2d');
+var img = new Image;
+img.src =imageURI;
+//$(img).width($(myCanvas).width());
+//$(img).height($(myCanvas).height());
+img.onload = function(){
+  ctx.drawImage(img,0,0,400,400); // Or at whatever offset you like
+};
+
+
+      // Get image handle
+      //
+      var largeImage = document.getElementById('largeImage');
+
+      // Unhide image elements
+      //
+      largeImage.style.display = 'block';
+
+      // Show the captured photo
+      // The inline CSS rules are used to resize the image
+      //
+      largeImage.src = imageURI;
+alert("filepath of the largeImage"+largeImage.src);
+
+      //draw the image on the canvas
+/*
+      var ctx=get_canvas_context();
+
+      ctx.drawImage(largeImage,10,10);
+*/
+	draw_canvas_image2=1;
+    }
+
+    // A button will call this function
+    //
+    function capturePhoto() {
+      // Take picture using device camera and retrieve image as base64-encoded string
+      navigator.camera.getPicture(onPhotoDataSuccess, onFail, { quality: 50,
+        destinationType: destinationType.DATA_URL });
+    }
+
+    // A button will call this function
+    //
+    function capturePhotoEdit() {
+      // Take picture using device camera, allow edit, and retrieve image as base64-encoded string
+      navigator.camera.getPicture(onPhotoDataSuccess, onFail, { quality: 20, allowEdit: true,
+        destinationType: destinationType.DATA_URL });
+    }
+
+    // A button will call this function
+    //
+    function getPhoto(source) {
+      // Retrieve image file location from specified source
+      navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 50,
+        destinationType: destinationType.FILE_URI,
+        sourceType: source });
+    }
+
+    // Called if something bad happens.
+    //
+    function onFail(message) {
+      alert('Failed because: ' + message);
+    }
+
+    </script>
+
+<!--	<script type="text/javascript" src="cordova-2.3.0.js"></script>
+    -->    
+	<script type="text/javascript" charset="utf-8" src="inappbilling.js"></script>
+                  
+<!--        <script type="text/javascript" src="js/index.js"></script>-->
+        <script type="text/javascript">
+        function abc(){alert("Hi");}
+        function buy1(id,nbr){
+                alert(nbr);
+                alert(id);
+                init(); 
+                //restoreTransactions();
+                numr=nbr;
+                //imgId=id;
+                purchase(id);
+            }
+        </script> 
+
+        <script type="text/javascript">
+            
+            
+            function successHandler (result) {
+    /*            var strResult = "";
+                if(typeof result === 'object') {
+                    strResult = JSON.stringify(result);
+                } else {
+                    strResult = result;
+                }
+      */          alert("SUCCESS1: \r\n"+strResult);
+                purch=strResult;
+                            }
+            function successHandler1 (result) {
+//                alert("handler1");
+/*
+                var strResult = "";
+                if(typeof result === 'object') {
+                  strResult = JSON.stringify(result);
+                } else {
+                    strResult = result;
+                }
+  */              alert("SUCCESS2: \r\n"/*+strResult*/ );
+                buyimg(numr);
+            
+            }
+
+            function successHandler3 (result) {
+                alert("SUCCESS3: \r\n"+result);
+            }
+           function errorHandler3 (error) {
+                alert("ERROR3: \r\n"+error );
+            }
+            function errorHandler (error) {
+                alert("ERROR: \r\n"+error );
+            }
+            
+            // Click on init button
+            function init(){
+                // Initialize the billing plugin
+                alert("Hi!");
+                inappbilling.init(successHandler3, errorHandler3);alert("Hi2!");
+            }
+            
+            // Restore the transactions
+            function restoreTransactions(){
+                // make the purchase
+                inappbilling.restoreTransactions(successHandler, errorHandler);
+            }
+            
+            // Click on purchase button
+            function purchase(proId){
+                // make the purchase
+                alert("Hi3");
+                inappbilling.purchase(successHandler1, errorHandler, proId);
+                alert("Hi4");
+                
+            }
+            
+            // Click on ownedProducts button
+            function ownedProducts(){
+                // Initialize the billing plugin
+                inappbilling.getOwnItems(successHandler, errorHandler);
+                
+            }
+            
+            // Check checkSubscriptionSupported button
+            function checkSubscriptionSupported(){
+                // Initialize the billing plugin
+                inappbilling.checkSubscriptionSupported(successHandler, errorHandler);
+                
+            }
+            // Click on subscribe button
+            function subscribe(){
+                // make the purchase
+                inappbilling.subscribe(successHandler, errorHandler,"premium_002");
+                
+            }
+            
+ 
+          
+             
+            </script>
+
+  	<script>
+	function displayResult()
+	{
+	document.body.style.backgroundColor="#f3f3f3";
+	document.body.style.backgroundImage="url('../Space1.jpg')";
+	}
+	</script>
+	
+                   
+    </head>
+<body onload="startTime()">
+	
+ <div data-role="page" id="main"> <!-- page1 strt-->
+<div id="contentm" data-role="content" ><!--content start-->
+	<div id="outPopUp" > 
+	<div class="config1" id="image2"></div>
+	<div class="config1"id="image3"></div>
+	<div class="config11"> <img src="images/ccolon.png"></div>
+	<div class="config1" id="image4"></div>
+	<div class="config1" id="image5"></div>
+	<div class="config11"> <img src="images/ccolon.png"></div>
+	<div class="config1" id="image1"></div>
+	<div class="config1" id="image"></div>
+	</div>
+	<div id="date" style="margin-left:20%"> </div>
+	<div id="multalrm" style="margin-top:150px; margin-left:10px; display:block;">
+	
+	</div>
+
+	<div id="kuchbhi" >
+		<p><a href="#new" data-role="button" id="alsetbutton" data-rel="dialog" data-transition="flip" data-theme="c" onclick="removecross('#new','#headr-alarm2')">ALARM SETTINGS</a></p>
+
+        
+
+		</div>
+
+  </div> <!-- content end-->
+
+</div> <!--page1 end-->
+  
+<div data-role="dialog" id="new"> <!--page2 strt-->
+	<div data-role="header" id="headr-alarm2">  <!--header strt-->
+	&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp;Alarm Settings
+	</div>  <!--header end-->
+<div data-role="content"> <!--content strt-->
+	<p><a href="#third" data-role="button" data-rel="dialog" data-transition="flip" return false;">Add Alarm</a></p>
+	<div> <h1 style="font-size:2px" >&nbsp; </h1></div>
+	<p><a href="#fourth" data-role="button" data-rel="dialog" data-transition="flip" return false;">Set Wallpaper</a></p>
+	<div> <h1 style="font-size:2px" >&nbsp; </h1> </div>
+	<p><a href="#" data-role="button" data-rel="dialog" data-transition="flip" return false; onclick="removecross('#sixth','#headr-alarm1')"">Set Ringtone</a></p>
+	<div> <h1 style="font-size:2px" >&nbsp; </h1> </div>
+	<p><a href="#inapp" data-role="button" data-rel="dialog" data-transition="flip" return false; onClick="pixdisp()">Buy Wallpapers</a></p>
+
+        <div> <h1 style="font-size:2px" >&nbsp; </h1> </div>
+	<p><a href="#Paint"data-role="button" data-transition="flip">Make your own wallpaper!</a></p>
+
+		<div> <h1 style="font-size:2px" >&nbsp; </h1> </div>
+	<p><a href="#main" data-role="button" style="width:33%;  font-size:25px; margin-left:33% " data-theme="e" data-rel="back" data-transition="flip" return false; ">BACK</a></p>
+	</div> <!--content end-->
+</div>	<!--page2 end-->
+	 
+<div data-role="page" id="third" > <!--page3 strt-->
+<div data-role="content" style="height:200px">
+<fieldset data-role="controlgroup" style="margin-left:32%" data-type="horizontal">
+		<legend style="font-size:30px" >&nbsp; ALARM TIME</legend>
+		
+		<label for="hrs"></label>
+		<select name="change hrs" id="hrs">
+			<option value="00">00</option>
+			<option value="01">01</option>
+			<option value="02">02</option>
+			<option value="03">03</option>
+			<option value="04">04</option>
+			<option value="05">05</option>
+			<option value="06">06</option>
+			<option value="07">07</option>
+			<option value="08">08</option>
+			<option value="09">09</option>
+			<option value="10">10</option>
+			<option value="11">11</option>
+			<option value="12">12</option>
+			<option value="13">13</option>
+			<option value="14">14</option>
+			<option value="15">15</option>
+			<option value="16">16</option>
+			<option value="17">17</option>
+			<option value="18">18</option>
+			<option value="19">19</option>
+			<option value="20">20</option>
+			<option value="21">21</option>
+			<option value="22">22</option>
+			<option value="23">23</option>
+			
+		</select>
+
+		<label for="min">Day</label>
+		<select name="select min" id="min">
+			<option value="00">00</option>
+			<option value="01">01</option>
+			<option value="02">02</option>
+			<option value="03">03</option>
+			<option value="04">04</option>
+			<option value="05">05</option>
+			<option value="06">06</option>
+			<option value="07">07</option>
+			<option value="08">08</option>
+			<option value="09">09</option>
+			<option value="10">10</option>
+			<option value="11">11</option>
+			<option value="12">12</option>
+			<option value="13">13</option>
+			<option value="14">14</option>
+			<option value="15">15</option>
+			<option value="16">16</option>
+			<option value="17">17</option>
+			<option value="18">18</option>
+			<option value="19">19</option>
+			<option value="20">20</option>
+			<option value="21">21</option>
+			<option value="22">22</option>
+			<option value="23">23</option>
+			<option value="24">24</option>
+			<option value="25">25</option>
+			<option value="26">26</option>
+			<option value="27">27</option>
+			<option value="28">28</option>
+			<option value="29">29</option>
+			<option value="30">30</option>
+			<option value="31">31</option>
+			<option value="32">32</option>
+			<option value="33">33</option>
+			<option value="34">34</option>
+			<option value="35">35</option>
+			<option value="36">36</option>
+			<option value="37">37</option>
+			<option value="38">38</option>
+			<option value="39">39</option>
+			<option value="40">40</option>
+			<option value="41">41</option>
+			<option value="42">42</option>
+			<option value="43">43</option>
+			<option value="44">44</option>
+			<option value="45">45</option>
+			<option value="46">46</option>
+			<option value="47">47</option>
+			<option value="48">48</option>
+			<option value="49">49</option>
+			<option value="50">50</option>
+			<option value="51">51</option>
+			<option value="52">52</option>
+			<option value="53">53</option>
+			<option value="54">54</option>
+			<option value="55">55</option>
+			<option value="56">56</option>
+			<option value="57">57</option>
+			<option value="58">58</option>
+			<option value="59">59</option>
+		</select>
+
+	</fieldset>
+</div> <!-- end f content-->
+<div data-role="footer" style="width:100%; padding:0px; position:absolute; bottom:-10px; left:-1px;" >
+	<div data-role="navbar" >
+                       <ul>
+                               <li>
+                                       <a href="#new" data-transition="fade" data-rel="back" data-theme="b"  onclick="update();"   style="border-bottom-left-radius:7px;">
+                                               Set Alarm
+                                       </a>
+                               </li>
+                              	
+                               <li>
+                                       <a href="#new" data-transition="fade" data-theme="b" data-rel="back" style="border-bottom-right-radius:7px;">
+                                               Cancel
+                                       </a>
+                               </li>
+                       </ul>
+               </div>
+</div>
+</div> <!--page3end-->
+<div data-role="page" id="fourth" > <!--page4 beginning-->
+<div data-role="content" id="cont" width=100% height=100%>
+        setAudioPosition((position) + " sec");
+                            }
+                        },
+                        // error callback
+                        function(e) {
+                            console.log("Error getting pos=" + e);
+                            setAudioPosition("Error: " + e);
+                        }
+                    );
+                }, 1000);
+<!--<img src="Space1.jpg" width=100% height=100%>
+	--><div class="back" id="bgimg"></div>	
+</div>
+<div data-role="footer" style="width:100%; padding:0px; position:absolute; bottom:-10px; left:-1px;" >
+	<div data-role="navbar" data-iconpos="top">
+            <ul>
+                <li>
+                    <a data-transition="fade" data-theme="b" onClick="prev()">
+                        Prev
+                    </a>
+                </li>
+                <li>
+                    <a href="#new" data-rel="back" data-transition="fade" data-theme="b"onClick="save()">
+                        Save
+                    </a>
+                </li>
+                <li>
+                    <a href="#new" data-rel="back" data-transition="fade" data-theme="b"  onClick="cancel()">
+                        Cancel
+                    </a>
+                </li>
+                <li>
+                    <a  data-transition="fade" data-theme="b"  onClick="next()">
+                        Next
+                    </a>
+                </li>
+            </ul>
+        </div>
+</div>
+</div> <!--page4 end-->
+<div data-role="dialog" id="fifth"> <!--page5 strt-->
+<div data-role="header" style="height:50px;" id="headr-alarm">
+<h3>WAKE UP</h3>
+</div>
+<div data-role="content"><!--content-->
+<div data-role="navbar" data-iconpos="top">
+           <ul>
+                <li>
+                    <a href="#main" data-rel="back" data-transition="fade" data-theme="e" onClick="dismiss()">
+                       DISMISS
+                    </a>
+                </li>
+                <li>
+                    <a href="#main" data-rel="back" data-transition="fade" data-theme="e" onClick="snooze()">
+                       SNOOZE
+                    </a>
+                </li>
+            </ul>
+        </div>
+</div> <!--content end-->
+</div> <!--page5 end-->
+<!--page 6 start-->
+<div data-role="page" id="sixth">
+    <div data-theme="a" data-role="header" data-position="fixed" style="height:70px;" id="headr-alarm1" >
+        <h1 style="margin-left:10%; font-size:35px; margin-right:5%;">
+            Select Alarm tone
+        </h1>
+    </div>
+    <div data-role="content">
+    <div data-role="navbar" data-iconpos="left">
+            <ul>
+                <li style="width:100%">
+                    <a href="#" data-transition="fade" data-theme="" data-icon="" onclick="playtone(1)" >
+                        Tone1
+                    </a>
+                </li>
+                <li style="width:100%">
+                    <a href="#" data-transition="fade" data-theme="" data-icon="" onclick="playtone(2)">
+                        Tone2
+                    </a>
+                </li>
+                <li style="width:100%">
+                    <a href="#" data-transition="fade" data-theme="" data-icon="" onclick="playtone(3)" >
+                        Tone3
+                    </a>
+                </li>
+                <li style="width:100%">
+                    <a href="#" data-transition="fade" data-theme="" data-icon="" onclick="playtone(4)" >
+                        Tone4
+                    </a>
+                </li>
+            </ul>
+        </div>
+        	
+    </div>
+    <div data-theme="a" data-role="footer" data-position="fixed" style="margin-bottom:-40px; padding:0px">
+        <div data-role="navbar" data-iconpos="right">
+            <ul>
+                <li>
+                    <a href="#new" data-transition="fade" data-rel="back" data-theme="b"  onClick="setring()">
+                        Apply
+                    </a>
+                </li>
+                <li>
+                    <a href="#new" data-transition="fade" data-theme="b" data-rel="back"  onClick="cancel()">
+                        Cancel
+                    </a>
+                </li>
+            </ul>
+    </div>
+    </div>
+</div>
+<!--page 6 end-->
+
+<div data-role="dialog" id="p0" > <!--p0 strt-->
+<div data-role="content" style="height:200px">
+<fieldset data-role="controlgroup" style="margin-left:32%" data-type="horizontal">
+		<legend >    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp; Alarm Time</legend>
+		
+		<label for="hrs0"></label>
+		<select name="change hrs0" id="hrs0">
+			<option value="00">00</option>
+			<option value="01">01</option>
+			<option value="02">02</option>
+			<option value="03">03</option>
+			<option value="04">04</option>
+			<option value="05">05</option>
+			<option value="06">06</option>
+			<option value="07">07</option>
+			<option value="08">08</option>
+			<option value="09">09</option>
+			<option value="10">10</option>
+			<option value="11">11</option>
+			<option value="12">12</option>
+			<option value="13">13</option>
+			<option value="14">14</option>
+			<option value="15">15</option>
+			<option value="16">16</option>
+			<option value="17">17</option>
+			<option value="18">18</option>
+			<option value="19">19</option>
+			<option value="20">20</option>
+			<option value="21">21</option>
+			<option value="22">22</option>
+			<option value="23">23</option>
+
+			
+		</select>
+
+		<label for="min0">Day</label>
+		<select name="select min0" id="min0">
+			<option value="00">00</option>
+			<option value="01">01</option>
+			<option value="02">02</option>
+			<option value="03">03</option>
+			<option value="04">04</option>
+			<option value="05">05</option>
+			<option value="06">06</option>
+			<option value="07">07</option>
+			<option value="08">08</option>
+			<option value="09">09</option>
+			<option value="10">10</option>
+			<option value="11">11</option>
+			<option value="12">12</option>
+			<option value="13">13</option>
+			<option value="14">14</option>
+			<option value="15">15</option>
+			<option value="16">16</option>
+			<option value="17">17</option>
+			<option value="18">18</option>
+			<option value="19">19</option>
+			<option value="20">20</option>
+			<option value="21">21</option>
+			<option value="22">22</option>
+			<option value="23">23</option>
+			<option value="24">24</option>
+			<option value="25">25</option>
+			<option value="26">26</option>
+			<option value="27">27</option>
+			<option value="28">28</option>
+			<option value="29">29</option>
+			<option value="30">30</option>
+			<option value="31">31</option>
+			<option value="32">32</option>
+			<option value="33">33</option>
+			<option value="34">34</option>
+			<option value="35">35</option>
+			<option value="36">36</option>
+			<option value="37">37</option>
+			<option value="38">38</option>
+			<option value="39">39</option>
+			<option value="40">40</option>
+			<option value="41">41</option>
+			<option value="42">42</option>
+			<option value="43">43</option>
+			<option value="44">44</option>
+			<option value="45">45</option>
+			<option value="46">46</option>
+			<option value="47">47</option>
+			<option value="48">48</option>
+			<option value="49">49</option>
+			<option value="50">50</option>
+			<option value="51">51</option>
+			<option value="52">52</option>
+			<option value="53">53</option>
+			<option value="54">54</option>
+			<option value="55">55</option>
+			<option value="56">56</option>
+			<option value="57">57</option>
+			<option value="58">58</option>
+			<option value="59">59</option>
+		</select>
+
+	</fieldset>
+</div> <!-- end f content-->
+<div data-role="footer" style="width:100%; padding:0px; position:absolute; bottom:-10px; left:-1px;" >
+	<div data-role="navbar" >
+                       <ul>
+                               <li>
+                                       <a href="#main" data-transition="fade" data-rel="back" data-theme="b"  onclick="upd(0);"   style="border-bottom-left-radius:7px;">
+                                               Set Alarm
+                                       </a>
+                               </li>
+                               <li>
+                                       <a href="#main" data-transition="fade" data-rel="back" data-theme="b"  onclick="del(0);"   style="border-bottom-left-radius:7px;">
+                                               Delete
+                                       </a>
+                               </li>	
+                               <li>
+                                       <a href="#main" data-transition="fade" data-theme="b" data-rel="back" style="border-bottom-right-radius:7px;">
+                                               Cancel
+                                       </a>
+                               </li>
+                       </ul>
+               </div>
+</div>
+</div>
+<!--p0 end-->
+
+<div data-role="dialog" id="p1" > <!--p1 strt-->
+<div data-role="content" style="height:200px">
+<fieldset data-role="controlgroup" style="margin-left:32%" data-type="horizontal">
+		<legend >    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp; Alarm Time</legend>
+		
+		<label for="hrs1"></label>
+		<select name="change hrs1" id="hrs1">
+			<option value="00">00</option>
+			<option value="01">01</option>
+			<option value="02">02</option>
+			<option value="03">03</option>
+			<option value="04">04</option>
+			<option value="05">05</option>
+			<option value="06">06</option>
+			<option value="07">07</option>
+			<option value="08">08</option>
+			<option value="09">09</option>
+			<option value="10">10</option>
+			<option value="11">11</option>
+			<option value="12">12</option>
+			<option value="13">13</option>
+			<option value="14">14</option>
+			<option value="15">15</option>
+			<option value="16">16</option>
+			<option value="17">17</option>
+			<option value="18">18</option>
+			<option value="19">19</option>
+			<option value="20">20</option>
+			<option value="21">21</option>
+			<option value="22">22</option>
+			<option value="23">23</option>
+
+			
+		</select>
+
+		<label for="min1">Day</label>
+		<select name="select min1" id="min1">
+			<option value="00">00</option>
+			<option value="01">01</option>
+			<option value="02">02</option>
+			<option value="03">03</option>
+			<option value="04">04</option>
+			<option value="05">05</option>
+			<option value="06">06</option>
+			<option value="07">07</option>
+			<option value="08">08</option>
+			<option value="09">09</option>
+			<option value="10">10</option>
+			<option value="11">11</option>
+			<option value="12">12</option>
+			<option value="13">13</option>
+			<option value="14">14</option>
+			<option value="15">15</option>
+			<option value="16">16</option>
+			<option value="17">17</option>
+			<option value="18">18</option>
+			<option value="19">19</option>
+			<option value="20">20</option>
+			<option value="21">21</option>
+			<option value="22">22</option>
+			<option value="23">23</option>
+			<option value="24">24</option>
+			<option value="25">25</option>
+			<option value="26">26</option>
+			<option value="27">27</option>
+			<option value="28">28</option>
+			<option value="29">29</option>
+			<option value="30">30</option>
+			<option value="31">31</option>
+			<option value="32">32</option>
+			<option value="33">33</option>
+			<option value="34">34</option>
+			<option value="35">35</option>
+			<option value="36">36</option>
+			<option value="37">37</option>
+			<option value="38">38</option>
+			<option value="39">39</option>
+			<option value="40">40</option>
+			<option value="41">41</option>
+			<option value="42">42</option>
+			<option value="43">43</option>
+			<option value="44">44</option>
+			<option value="45">45</option>
+			<option value="46">46</option>
+			<option value="47">47</option>
+			<option value="48">48</option>
+			<option value="49">49</option>
+			<option value="50">50</option>
+			<option value="51">51</option>
+			<option value="52">52</option>
+			<option value="53">53</option>
+			<option value="54">54</option>
+			<option value="55">55</option>
+			<option value="56">56</option>
+			<option value="57">57</option>
+			<option value="58">58</option>
+			<option value="59">59</option>
+		</select>
+
+	</fieldset>
+</div> <!-- end f content-->
+<div data-role="footer" style="width:100%; padding:0px; position:absolute; bottom:-10px; left:-1px;" >
+	<div data-role="navbar" >
+                       <ul>
+                               <li>
+                                       <a href="#main" data-transition="fade" data-rel="back" data-theme="b"  onclick="upd(1);"   style="border-bottom-left-radius:7px;">
+                                               Set Alarm
+                                       </a>
+                               </li>
+                               <li>
+                                       <a href="#main" data-transition="fade" data-rel="back" data-theme="b"  onclick="del(1);"   style="border-bottom-left-radius:7px;">
+                                               Delete
+                                       </a>
+                               </li>	
+                               <li>
+                                       <a href="#main" data-transition="fade" data-theme="b" data-rel="back" style="border-bottom-right-radius:7px;">
+                                               Cancel
+                                       </a>
+                               </li>
+                       </ul>
+               </div>
+</div>
+</div>
+<!--p1 end-->
+
+<div data-role="dialog" id="p2" > <!--p2 strt-->
+<div data-role="content" style="height:200px">
+<fieldset data-role="controlgroup" style="margin-left:32%" data-type="horizontal">
+		<legend >    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp; Alarm Time</legend>
+		
+		<label for="hrs2"></label>
+		<select name="change hrs2" id="hrs2">
+			<option value="00">00</option>
+			<option value="01">01</option>
+			<option value="02">02</option>
+			<option value="03">03</option>
+			<option value="04">04</option>
+			<option value="05">05</option>
+			<option value="06">06</option>
+			<option value="07">07</option>
+			<option value="08">08</option>
+			<option value="09">09</option>
+			<option value="10">10</option>
+			<option value="11">11</option>
+			<option value="12">12</option>
+			<option value="13">13</option>
+			<option value="14">14</option>
+			<option value="15">15</option>
+			<option value="16">16</option>
+			<option value="17">17</option>
+			<option value="18">18</option>
+			<option value="19">19</option>
+			<option value="20">20</option>
+			<option value="21">21</option>
+			<option value="22">22</option>
+			<option value="23">23</option>
+
+			
+		</select>
+
+		<label for="min2">Day</label>
+		<select name="select min2" id="min2">
+			<option value="00">00</option>
+			<option value="01">01</option>
+			<option value="02">02</option>
+			<option value="03">03</option>
+			<option value="04">04</option>
+			<option value="05">05</option>
+			<option value="06">06</option>
+			<option value="07">07</option>
+			<option value="08">08</option>
+			<option value="09">09</option>
+			<option value="10">10</option>
+			<option value="11">11</option>
+			<option value="12">12</option>
+			<option value="13">13</option>
+			<option value="14">14</option>
+			<option value="15">15</option>
+			<option value="16">16</option>
+			<option value="17">17</option>
+			<option value="18">18</option>
+			<option value="19">19</option>
+			<option value="20">20</option>
+			<option value="21">21</option>
+			<option value="22">22</option>
+			<option value="23">23</option>
+			<option value="24">24</option>
+			<option value="25">25</option>
+			<option value="26">26</option>
+			<option value="27">27</option>
+			<option value="28">28</option>
+			<option value="29">29</option>
+			<option value="30">30</option>
+			<option value="31">31</option>
+			<option value="32">32</option>
+			<option value="33">33</option>
+			<option value="34">34</option>
+			<option value="35">35</option>
+			<option value="36">36</option>
+			<option value="37">37</option>
+			<option value="38">38</option>
+			<option value="39">39</option>
+			<option value="40">40</option>
+			<option value="41">41</option>
+			<option value="42">42</option>
+			<option value="43">43</option>
+			<option value="44">44</option>
+			<option value="45">45</option>
+			<option value="46">46</option>
+			<option value="47">47</option>
+			<option value="48">48</option>
+			<option value="49">49</option>
+			<option value="50">50</option>
+			<option value="51">51</option>
+			<option value="52">52</option>
+			<option value="53">53</option>
+			<option value="54">54</option>
+			<option value="55">55</option>
+			<option value="56">56</option>
+			<option value="57">57</option>
+			<option value="58">58</option>
+			<option value="59">59</option>
+		</select>
+
+	</fieldset>
+</div> <!-- end f content-->
+<div data-role="footer" style="width:100%; padding:0px; position:absolute; bottom:-10px; left:-1px;" >
+	<div data-role="navbar" >
+                       <ul>
+                               <li>
+                                       <a href="#main" data-transition="fade" data-rel="back" data-theme="b"  onclick="upd(2);"   style="border-bottom-left-radius:7px;">
+                                               Set Alarm
+                                       </a>
+                               </li>
+                               <li>
+                                       <a href="#main" data-transition="fade" data-rel="back" data-theme="b"  onclick="del(2);"   style="border-bottom-left-radius:7px;">
+                                               Delete
+                                       </a>
+                               </li>	
+                               <li>
+                                       <a href="#main" data-transition="fade" data-theme="b" data-rel="back" style="border-bottom-right-radius:7px;">
+                                               Cancel
+                                       </a>
+                               </li>
+                       </ul>
+               </div>
+</div>
+</div>
+<!--p2 end-->
+
+<div data-role="dialog" id="p3" > <!--p3 strt-->
+<div data-role="content" style="height:200px">
+<fieldset data-role="controlgroup" style="margin-left:32%" data-type="horizontal">
+		<legend >    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp; Alarm Time</legend>
+		
+		<label for="hrs3"></label>
+		<select name="change hrs3" id="hrs3">
+			<option value="00">00</option>
+			<option value="01">01</option>
+			<option value="02">02</option>
+			<option value="03">03</option>
+			<option value="04">04</option>
+			<option value="05">05</option>
+			<option value="06">06</option>
+			<option value="07">07</option>
+			<option value="08">08</option>
+			<option value="09">09</option>
+			<option value="10">10</option>
+			<option value="11">11</option>
+			<option value="12">12</option>
+			<option value="13">13</option>
+			<option value="14">14</option>
+			<option value="15">15</option>
+			<option value="16">16</option>
+			<option value="17">17</option>
+			<option value="18">18</option>
+			<option value="19">19</option>
+			<option value="20">20</option>
+			<option value="21">21</option>
+			<option value="22">22</option>
+			<option value="23">23</option>
+
+			
+		</select>
+
+		<label for="min3">Day</label>
+		<select name="select min3" id="min3">
+			<option value="00">00</option>
+			<option value="01">01</option>
+			<option value="02">02</option>
+			<option value="03">03</option>
+			<option value="04">04</option>
+			<option value="05">05</option>
+			<option value="06">06</option>
+			<option value="07">07</option>
+			<option value="08">08</option>
+			<option value="09">09</option>
+			<option value="10">10</option>
+			<option value="11">11</option>
+			<option value="12">12</option>
+			<option value="13">13</option>
+			<option value="14">14</option>
+			<option value="15">15</option>
+			<option value="16">16</option>
+			<option value="17">17</option>
+			<option value="18">18</option>
+			<option value="19">19</option>
+			<option value="20">20</option>
+			<option value="21">21</option>
+			<option value="22">22</option>
+			<option value="23">23</option>
+			<option value="24">24</option>
+			<option value="25">25</option>
+			<option value="26">26</option>
+			<option value="27">27</option>
+			<option value="28">28</option>
+			<option value="29">29</option>
+			<option value="30">30</option>
+			<option value="31">31</option>
+			<option value="32">32</option>
+			<option value="33">33</option>
+			<option value="34">34</option>
+			<option value="35">35</option>
+			<option value="36">36</option>
+			<option value="37">37</option>
+			<option value="38">38</option>
+			<option value="39">39</option>
+			<option value="40">40</option>
+			<option value="41">41</option>
+			<option value="42">42</option>
+			<option value="43">43</option>
+			<option value="44">44</option>
+			<option value="45">45</option>
+			<option value="46">46</option>
+			<option value="47">47</option>
+			<option value="48">48</option>
+			<option value="49">49</option>
+			<option value="50">50</option>
+			<option value="51">51</option>
+			<option value="52">52</option>
+			<option value="53">53</option>
+			<option value="54">54</option>
+			<option value="55">55</option>
+			<option value="56">56</option>
+			<option value="57">57</option>
+			<option value="58">58</option>
+			<option value="59">59</option>
+		</select>
+
+	</fieldset>
+</div> <!-- end f content-->
+<div data-role="footer" style="width:100%; padding:0px; position:absolute; bottom:-10px; left:-1px;" >
+	<div data-role="navbar" >
+                       <ul>
+                               <li>
+                                       <a href="#main" data-transition="fade" data-rel="back" data-theme="b"  onclick="upd(3);"   style="border-bottom-left-radius:7px;">
+                                               Set Alarm
+                                       </a>
+                               </li>
+                               <li>
+                                       <a href="#main" data-transition="fade" data-rel="back" data-theme="b"  onclick="del(3);"   style="border-bottom-left-radius:7px;">
+                                               Delete
+                                       </a>
+                               </li>	
+                               <li>
+                                       <a href="#main" data-transition="fade" data-theme="b" data-rel="back" style="border-bottom-right-radius:7px;">
+                                               Cancel
+                                       </a>
+                               </li>
+                       </ul>
+               </div>
+</div>
+</div>
+<!--p3 end-->
+<!--page inapp start-->
+<div data-role="dialog" id="inapp">
+    <div data-theme="a" data-role="header" data-position="fixed" style="height:50px;" id="headr-alarm3" >
+        <h3 style="margin-left:30%; margin-right:30%; font-size:20px">
+            CLICK TO PREVIEW
+        </h3 >
+    </div> 
+    <div data role="content" style="background-color: white;">
+    <div  id="pix0" style="background-color: white; margin-left:15%;" onClick="check(0)"> </div>
+    <div  id="pix1" style="background-color: white; margin-left:15%;" onClick="check(1)"> </div>
+    <div  id="pix2" style="background-color: white; margin-left:15%;" onClick="check(2)"> </div>
+    <div  id="pix3" style="background-color: white; margin-left:15%;" onClick="check(3)"> </div>
+    <div> <h1 style="font-size:2px" >&nbsp; </h1> </div>
+	<p><a href="#main" data-role="button" style="width:33%;  font-size:25px; margin-left:33% " data-theme="e" data-rel="back" data-transition="flip" return false; ">BACK</a></p>
+	    <div> <h1 style="font-size:2px" >&nbsp; </h1> </div>
+</div>
+</div>
+<!--page inapp end-->
+<!--page preview start-->
+<div data-role="dialog" id="preview">
+    <div data-theme="a" data-role="header" data-position="fixed" style="height:70px;" id="headr-alarm1" >
+        <h5 style="font-size:35px; margin-right:10%; margin-left:10%; " >
+            Purchase Wallpaper
+        </h5>
+    </div>
+    <div data-role="content">
+ 	 <div  id="disppreview">
+ 	 </div>
+    </div>
+    <div data-theme="a" data-role="footer" data-position="fixed" style="margin-bottom:-40px; padding:0px">
+        <div data-role="navbar" data-iconpos="right">
+            <ul>
+                <li>
+                    <a href="#new" data-transition="fade" data-rel="back" data-theme="b"  onClick="buy1(globalId,globalNum)">
+                        Purchase
+                    </a>
+                </li>
+                <li>
+                    <a href="#new" data-transition="fade" data-theme="b" data-rel="back"  onClick="cancel()">
+                        Cancel
+                    </a>
+                </li>
+            </ul>
+    </div>
+    </div>
+</div>
+<!--page 6 end-->
+
+<div data-role="page" id="Paint">
+
+
+<!--
+    <!-- Side Navigation Panel --
+    <div data-role="panel" id="sideNav" data-position="left" data-theme="a">
+	    <div class="ui-grid-b">
+		    <div class="ui-block-a" onClick="draw_Pencil()"><img src="images/paint/pencil1.png" width="25px" height="25px"></div>
+		    <div class="ui-block-b"><img src="images/paint/shapes.png" width="25px" height="25px"></div>
+		    <div class="ui-block-c"><img src="images/paint/edit-icon.gif" width="25px" height="25px"></div>
+		    <div class="ui-block-a"><img src="images/paint/pencil1.png" width="25px" height="25px"></div>
+		    <div class="ui-block-b"><img src="images/paint/pencil1.png" width="25px" height="25px"></div>
+		    <div class="ui-block-c"><img src="images/paint/pencil1.png" width="25px" height="25px"></div>
+		    <div class="ui-block-a"><img src="images/paint/pencil1.png" width="25px" height="25px"></div>
+		    <div class="ui-block-b"><img src="images/paint/pencil1.png" width="25px" height="25px"></div>
+		    <div class="ui-block-c"><img src="images/paint/pencil1.png" width="25px" height="25px"></div>
+	    </div>
+    </div>
+
+
+
+
+
+	<div data-role="header" id="canvas_header">
+ <table data-role="none" id="toolset1">
+<tr>
+<!--
+<td>                 
+                   
+                     <a href="#sideNav" data-role="button" data-theme="e" data-icon="grid" width="18px" data-iconpos="notext" ><!--<i class="icon-th-list"></i>--><!--</a>
+</td>
+<td>
+		     <img src="images/paint/pencil1.png" width="25px" height="25px" style="margin-left:10px;margin-right:10px">
+</td>--
+<td>
+                     <font data-role="none" style="font-weight:normal;font-size:50%">
+                     &nbsp;Select:&nbsp;
+                     </font>
+		     <select data-role="none">
+		     <option selected>Set the canvas background</option><!-- can be simple color, gradient, pattern , take a picture, set a alpha value of the canvas--
+
+                     <option>Set the canvas size</option><!--Id's which open : select_size_canvas, resize_canvas--
+		     <option>Pencil</option><!--Id of the related elements : stroke_color , stroke_size , enter_stroke --
+	             <option>Eraser</option>
+		     <option>Shapes</option>
+		     <option>Text</option>
+		     <option>Take a picture</option>
+		     <option>Import a picture</option><!--Take the original picture size or scale it down to the canvas size--
+		     <option>Edit the picture</option><!--crop--
+		     <option>Save to Gallery</option>
+		     <option>Set as wallpaper</option>
+		     <option>Clear canvas</option>
+		     <option>Help</option>
+		     <option>Quit</option>
+		     </select>
+</td>
+<!--Showed for text,pencil,shapes,edit picture--
+<td>
+	<div id="stroke_color">
+                     <font data-role="none" style="font-weight:normal;font-size:50%">&nbsp;Stroke:&nbsp;</font>
+                     <input data-role="none" type="text" id='stroke_color_picker' style="none">
+	</div>
+</td>
+<!--Showed for text,pencil,shapes,edit picture--
+<td>
+		<div id="stroke_size">
+
+                     <font data-role="none" style="font-weight:normal;font-size:50%">
+                     &nbsp;Size :&nbsp;
+                     </font>
+
+                     <select data-role="none" id="select_stroke_size" onchange="set_enter_own_stroke_size();set_stroke_size();" onload="set_enter_own_stroke_size();set_stroke_size();">
+		     <option selected>1</option>
+	             <option>2</option>
+		     <option>3</option>
+		     <option>4</option>
+	             <option>5</option>
+		     <option>6</option>
+		     <option>7</option>
+		     <option>8</option>
+		     <option>9</option>
+		     <option>10</option>
+		     <option>enter a value</option>
+		     </select>
+		     <input type="text" data-role="none" style="width:30px" id="enter_stroke_size" onfocus="set_started_stroke_size()" onblur="set_canvas_stroke_size()">
+		</div>
+
+</td>
+<!--Displayed when the shapes option is selected--
+<td>
+		     <select data-role="none" id="select_shapes">
+		     <option selected>circle</option>
+	             <option>rectangle</option>
+		     <option>triangle</option>
+		     <option>polygon</option>
+		     </select>
+</td>
+
+<!--Displayed when the shapes,set as background option is selected--
+<td>
+		<div id="fill_canvas">
+ 		     <font data-role="none" style="font-weight:normal;font-size:50%">
+                     &nbsp;Fill:&nbsp;
+                     </font>
+
+                     <input data-role="none" type="text" id='fill_color_picker' style="none">
+		</div>
+
+</td>
+<!-- Resize canvas - Showed when the user selects set canvas size --
+<td>
+		<div id="resize_canvas">
+ 		     <font data-role="none" style="font-weight:normal;font-size:50%">
+                     &nbsp;Resize canvas:&nbsp;
+                     </font>
+
+                     <select data-role="none" id="resize_canvas">
+		     <option selected>1</option>
+	             <option>2</option>
+		     <option>3</option>
+		     <option>more..</option>
+		     </select>
+		     <input type="text" data-role="none" style="width:30px" id="enter_canvas_size" display="inline:block">
+		</div>
+
+</td>
+<script>
+var stroke_size_onfocus=0;
+function set_started_stroke_size()
+{
+		stroke_size_onfocus=1;
+}
+
+function set_canvas_stroke_size()
+{
+	if(stroke_size_onfocus==1)
+	{
+                var ctx=(document).getElementById("canvas_paint1 ").getContext("2d");
+		ctx.lineWidth=(document).getElementById('enter_stroke_size').value;
+		stroke_size_onfocus=0;
+	}
+}
+
+function set_stroke_size()
+{
+	var e = document.getElementById("select_stroke_size");
+	var str_selected = e.options[e.selectedIndex].value;
+	if (str_selected=="enter a value")
+        {/*
+                var ctx=(document).getElementById("canvas_paint").getContext("2d");
+		ctx.lineWidth=(document).getElementById('enter_stroke_size').value;	*/
+        }
+        else
+        {
+                var ctx=(document).getElementById("canvas_paint1").getContext("2d");
+		var e = (document).getElementById("select_stroke_size");
+		var str_selected = e.options[e.selectedIndex].value;
+		ctx.lineWidth=str_selected;
+	}
+}
+
+function set_enter_own_stroke_size()
+{
+	var e = document.getElementById("select_stroke_size");
+	var str_selected = e.options[e.selectedIndex].value;
+	//var textbox = document.getElementById("select_size_text");
+        //textbox.toggle();
+	if (str_selected=="enter a value")
+        {
+		unhider();
+        }
+        else
+        {
+		hider();
+	}
+	    function hider(){
+		(document).getElementById('enter_stroke_size').style.display="none";
+		//(document).getElementById('showDiv').style.display="inline-block";
+	    }
+	    function unhider(){
+		//(document).getElementById('showDiv').style.display="none";
+		(document).getElementById('enter_stroke_size').style.display="inline-block";                
+	    }
+
+}
+
+$(document).on('pageinit','#Paint', function(){
+        (document).getElementById('enter_stroke_size').style.display="none";
+	(document).getElementById('select_shapes').style.display="none";
+	(document).getElementById('fill_canvas').style.display="none";
+	(document).getElementById("select_stroke_size").selectedIndex=0;
+
+});
+
+</script>
+</tr>
+</table>
+                  
+        </div>
+        
+        <script>
+                      $('#stroke_color_picker').spectrum({
+                                    showAlpha:true,
+				    preferredFormat: "hex6",
+				    showInput: true,
+					change: function(color) {
+					    color.toHexString(); // #ff0000
+                                            //var c=document.getElementById("canvas_paint");
+			                    var ctx=document.getElementById("canvas_paint").getContext("2d");
+			                    ctx.strokeStyle=color.toHexString();
+ctx.strokeStyle=color.toRgbString();
+                                            console.log(color.toHexString());
+console.log(color.toRgb().a);
+//console.log("alpha value"+alpha);
+console.log(color);
+console.log(color.aplhaHex);
+ctx.globalAplha=color.toRgb().a;
+
+                                            console.log(ctx.strokeStyle);
+
+					},
+                      });
+
+                      $('#fill_color_picker').spectrum({
+                                    showAlpha:true,
+				    preferredFormat: "hex6",
+				    showInput: true,
+					change: function(color) {
+					    color.toHexString(); // #ff0000
+                                            //var c=document.getElementById("canvas_paint");
+			                    var ctx=document.getElementById("canvas_paint").getContext("2d");
+			                    ctx.fillStyle=color.toHexString();
+                                            console.log(color.toHexString());
+//console.log(color);
+console.log(color.aplhaHex);
+                                            console.log(ctx.fillStyle);
+					},
+                      });
+
+			
+
+        </script>
+
+-->
+	<div data-role="content" id="canvas">     
+ 
+            <!--THE CANVAS ELEMENT-->
+
+                                                                             
+
+			              
+              					    <canvas id="canvas_paint" style="border:1px solid #c3c3c3;" width="900px" height="1200px"></canvas>
+
+<script>
+        var canvas_image_path;
+	function saveImage()
+	{
+		var canvas = document.getElementById('canvas_paint');
+/*		window.savephotoplugin(canvas,"image/png",device.version,function(val){ 
+		  //returns you the saved path in val	
+				alert("Photo Saved: " + val);	
+		});
+*/
+		var imageData=canvas.toDataURL();
+		alert(imageData);
+/*
+    window.plugins.base64ToPNG.saveImage(myBase64, {filename:"dot.png", overwrite: true}, 
+       function(result) {
+          alert(result);
+       }, function(error) {
+          alert(error);
+    });
+    function saveImage(b64String, params, win, fail) {
+        cordovaRef.exec(win, fail, "Base64ToPNG", "saveImage", [b64String, params]);
+    };
+*/
+
+		function success_saveImage(result){
+                        canvas_image_path=result;
+			alert("result of save image : " + result);
+		}
+		function error_saveImage(error){
+			alert("save image - error : " + error);
+		}
+                cordova.exec(success_saveImage,error_saveImage,"Base64ToPNG","saveImage",[imageData,{filename:"abc1.png",overwrite:'true'}]);
+
+	}
+
+</script>        
+
+<script>
+	
+		var canvas = document.getElementById('canvas_paint');
+		var canvas_imageData=canvas.toDataURL();
+		var img = new Image;
+                img.src =canvas_imageData;
+                img.id='canvas_image';
+</script>
+
+
+<!--<button onclick="resizeCanvas();">Resize Canvas</button> <br>
+    <button onclick="moveImage();">Move the image</button> <br>
+    <button onclick="resizeImage();">Resize Image</button> <br>-->
+    <button onclick="draw('pencil');">Draw</button> <br>
+    <button onclick="capturePhoto();">Capture Photo</button> <br>
+<!--<button onclick="capturePhotoEdit();">Capture Editable Photo</button> <br>
+    <button onclick="getPhoto(pictureSource.PHOTOLIBRARY);">From Photo Library</button><br>-->
+    <button onclick="getPhoto(pictureSource.SAVEDPHOTOALBUM);">From Photo Album</button><br>
+    <button onclick="saveImage()">Save Image</button><br>
+    <button id="btn-link" onclick="dropbox_sync_link()">link dropbox_sync</button><br>
+    <button id="btn-unlink" style="display:none;" onclick="dropbox_sync_unlink()">unlink dropbox_sync</button><br>
+    <button id="btn-saveDropbox" onclick="dropbox_sync_save()">save and upload dropbox_sync</button><br>
+    <button href="#popup_get_image_frm_dropbox" data-rel="popup" id="btn-downloadDropbox" onclick="dropbox_sync_download()">get the pic from dropbox_sync</button><br>
+    <div id="loader"><img src="img/loader.gif" ></div>
+	<div data-role="popup" id="popup_get_image_frm_dropbox">
+	  <ul id="fileList"></ul>
+          <h3 id="noFiles" style="display:none;">No files</h3>
+          <a href="#Paint"><button>BACK</button></a>
+	</div>
+<!--<button id="linkDropbox">Link with Dropbox</button>
+    <div id="append_here"></div>-->
+    <img style="display:none;width:60px;height:60px;" id="smallImage" src=""/>
+    <img style="display:none;" id="largeImage" src=""/>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#loader").hide();
+         });
+    </script>
+<!--<script type="text/javascript" src="js/dropins.js" id="dropboxjs" data-app-key="2b8bv0il1ubowa0"></script>-->
+
+<script>
+
+$( document ).on( "vclick", "#linkDropbox", function() {
+        alert("Inside linkDropbox");
+	cordova.exec(linkDropboxCB, linkDropboxFail, "PhoneGapDropBox", "link", [""]);
+  });
+/*
+$( document ).on( "vclick", "#unlinkDropbox", function() {
+	cordova.exec(unlinkDropboxCB, unlinkDropboxFail, "PhoneGapDropBox", "unlink", [""]);
+  });
+
+$( document ).on( "vclick", "#uploadDropbox", function(image_path) {
+	window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, writeFail);
+	cordova.exec(uploadDropboxCB, uploadDropboxFail, "PhoneGapDropBox", "upload", [image_path]);
+  });*/
+
+</script>
+
+
+
+
+
+<script>
+/*
+$(document).on('pageinit','#Paint', function(){
+
+    window.onload = function() { 
+	var largeImage=(document).getElementById("largeImage");
+	var smallImage=(document).getElementById("smallImage");
+
+	largeImage.onload = hasLoaded;
+	smallImage.onload = hasLoaded;
+
+	var canvas=document.getElementById("canvas_paint");
+	var ctx=canvas.getContext("2d");	
+
+	function hasLoaded() {
+	//draw whatever ones have loaded so far: 
+
+	ctx.drawImage(largeImage, 0, 0); 
+	ctx.drawImage(smallImage, 0, 0);
+
+	} 
+}
+*/
+/*
+    window.onload = function() {  
+        var c=document.getElementById('myCanvas');
+        var cxt=c.getContext('2d');
+        var img=new Image();
+        img.src='img_flwr.png';
+        cxt.drawImage(img,0,0);
+    };
+*/
+
+</script>
+<!--
+	<script>
+		function getPhoto1(source){
+			getPhoto(source);
+			var canvas=$('#canvas_paint')[0];
+			var ctx=canvas.getContext("2d");
+			var get_image=$('#largeImage')[0];
+			console.log(get_image.src);
+			ctx.drawImage(get_image,$(canvas).width(),$(canvas).height());
+		}
+	</script>
+-->
+
+		              		       <!--/sketch-->
+
+                               
+
+	</div><!-- /content -->
+        <!--
+	<div data-role="footer" id="canvas_footer" data-position="fixed">
+			    <div class="categories">                
+				    <ul>   
+
+					<li><a href=""><img src="images/paint/Action Undo.ico" width="25px" height="25px"></a></li>
+					<li><a href=""><img src="images/paint/Action Redo.ico" width="25px" height="25px"></a></li>
+					<li><a href=""><img src="images/paint/My Images.ico" width="25px" height="25px"></a></li>
+					<li><a href=""><img src="images/paint/Save.ico" width="25px" height="25px"></a></li>
+                                        <li><a href=""><img src="images/paint/Photo.ico" width="25px" height="25px"></a></li>
+                                        <li><a href=""><img src="images/paint/Refresh.ico" width="25px" height="25px"></a></li>
+                                        <li><a href=""><img src="images/paint/Rotate.ico" width="25px" height="25px"></a></li>
+                                        <li><a href=""><img src="images/paint/Gear.ico" width="25px" height="25px"></a></li>
+					<li><a href=""><img src="images/paint/Info.ico" width="25px" height="25px"></a></li>  
+               
+				    </ul>               
+				</div>
+	</div>--><!-- /footer -->
+</div>
+<script src="paint.js"></script>
+        <script type="text/javascript" src="cordova.js"></script>
+	<script type="text/javascript" src="cordova_plugins.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+
+
+	<script type="text/javascript">
+	app.initialize();
+	</script>
+
+
+
+
+
+
+    </body>
+</html>

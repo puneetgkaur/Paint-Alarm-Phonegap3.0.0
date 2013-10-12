@@ -1,0 +1,14 @@
+function hello()
+{
+	var e = document.getElementById("select_stroke_size");
+	var str_selected = e.options[e.selectedIndex].value;
+	if (str_selected=="more..")
+        {
+		       $("#select_size_text").toggle();
+
+        }
+        else
+        {
+		       $("#select_size_text").remove();
+	}
+}

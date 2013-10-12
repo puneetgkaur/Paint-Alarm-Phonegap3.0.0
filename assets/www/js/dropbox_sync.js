@@ -1,0 +1,143 @@
+var dropbox = (function() {
+
+    var pluginName = "rossmartin_sync_dropbox";
+
+    var link = function() {
+        console.log("dropbox link 1");
+        var deferred = $.Deferred();
+        console.log("dropbox link 2");
+        Cordova.exec(
+            function(result) {
+                setTimeout(function() {
+                    console.log("dropbox link 3 : inside the result success function"+result);
+                    deferred.resolve(result);
+                }, 1000);
+            },
+            function(error) {
+                console.log("dropbox link 4 , error "+error);
+                deferred.reject(error);
+            },
+            pluginName, "link", [""]);
+        console.log("dropbox link 5");
+        return deferred.promise();
+    }
+
+    var checkLink = function() {
+        var deferred = $.Deferred();
+        Cordova.exec(
+            function(result) {
+                deferred.resolve(result);
+            },
+            function(error) {
+                deferred.reject(error);
+            },
+            pluginName, "checkLink", [""]);
+        return deferred.promise();
+    }
+
+    var unlink = function() {
+        var deferred = $.Deferred();
+        Cordova.exec(
+            function(result) {
+                deferred.resolve(result);
+            },
+            function(error) {
+                deferred.reject(error);
+            },
+            pluginName, "unlink", [""]);
+        return deferred.promise();
+    }
+
+    var listFolder = function(path) {
+        var deferred = $.Deferred();
+        Cordova.exec(
+            function(result) {
+                deferred.resolve(result);
+            },
+            function(error) {
+                alert("getFiles error");
+                console.log("getFiles error");
+                deferred.reject(error);
+            },
+            pluginName, "listFolder", [path]);
+        return deferred.promise();
+    }
+
+    var addObserver = function(path) {
+        var deferred = $.Deferred();
+        Cordova.exec(
+            function(result) {
+                deferred.resolve(result);
+            },
+            function(error) {
+                deferred.reject(error);
+            },
+            pluginName, "addObserver", [path]);
+        return deferred.promise();
+    }
+
+    var readData = function (fileName) {
+        var deferred = $.Deferred();
+        Cordova.exec(
+            function(result) {
+                deferred.resolve(result);
+            },
+            function(error) {
+                deferred.reject();
+            },
+            pluginName, "readData", [fileName]);
+        return deferred.promise();
+    }
+
+    var readString = function (fileName) {
+        var deferred = $.Deferred();
+        Cordova.exec(
+            function(result) {
+                deferred.resolve(result);
+            },
+            function(error) {
+                deferred.reject();
+            },
+            pluginName, "readString", [fileName]);
+        return deferred.promise();
+    }
+    
+    var uploadFile = function (filePath) {
+        var deferred = $.Deferred();
+        Cordova.exec(
+            function(result) {
+                deferred.resolve(result);
+            },
+            function(error) {
+                deferred.reject();
+            },
+            pluginName, "uploadFile", [filePath]);
+        return deferred.promise();
+    }
+    
+    var uploadFolder = function (folderPath) {
+        var deferred = $.Deferred();
+        Cordova.exec(
+            function(result) {
+                deferred.resolve(result);
+            },
+            function(error) {
+                deferred.reject();
+            },
+            pluginName, "uploadFolder", [folderPath]);
+        return deferred.promise();
+    }
+
+    return {
+        link: link,
+        checkLink: checkLink,
+        unlink: unlink,
+        listFolder: listFolder,
+        addObserver: addObserver,
+        readData: readData,
+        readString: readString,
+        uploadFile: uploadFile,
+        uploadFolder: uploadFolder
+    }
+
+}());

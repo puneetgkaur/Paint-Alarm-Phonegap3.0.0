@@ -1,0 +1,76 @@
+#navIcon{
+    color: #f1f1f1;
+    text-shadow:none;
+    border: none;
+    background: none;
+
+
+}
+#navIcon span.ui-btn-inner{
+    font-size: 18px;
+    border-top: none;
+}
+
+
+
+
+/*
+    Side Panel
+    */
+    #sideButtons{
+        text-shadow:none;
+        padding: 0;
+        float: left;
+        margin: 0;
+        list-style: none;
+    }
+    #sideButtons li{
+      float: left;
+  }
+  #sideButtons li a{
+    border-right: 1px solid #34495e;
+    border-bottom: 1px solid #34495e;
+    background: #2c3e50;
+    text-decoration: none;
+    display: block;
+    padding: 12px 12px 12px 13px;
+    font-size: 20px;
+    color: #bdc3c7;
+}
+
+
+#sideNav{
+    background: #232323;
+}
+#sidePanel{
+    margin: 0;padding: 0;
+    list-style: none;
+}
+#sidePanel li{
+    padding: 10px 8px;
+    border-bottom: #2e2e2e 1px solid;
+}
+#sidePanel li a{
+    font-size: 96%;
+    letter-spacing: 2px;
+    font-family: 'Noto Sans', sans-serif;
+    font-weight: bold;
+    color: #848484;
+    text-decoration: none;
+    text-shadow:none;
+}
+#sidePanel li a i{
+
+    margin-right: 6px;
+}
+#sideNav .ui-panel-inner{
+    position: fixed;
+    padding: 0px;
+}
+#sidePanel li#active{
+  background-color: #222;
+  border-left: 4px solid #E76C67;
+}
+#sidePanel li#active a, #sidePanel li#active a i{
+    color: #fff;
+}

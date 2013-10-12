@@ -1,0 +1,23 @@
+
+.ui-icon-pencil {
+background-image: url( "images/paint/pencil1.png" );
+width: 18px;
+height:18px;
+}
+
+.ui-icon-circle {
+background-image: url( "images/paint/circle.png" );
+}
+
+.ui-icon-rectangle {
+background-image: url( "images/paint/rectangle.png" );
+}
+
+.ui-icon-triangle {
+background-image: url( "images/paint/triangle.png" );
+}
+
+.ui-icon-polygon {
+background-image: url( "images/paint/polygon.png" );
+}
+

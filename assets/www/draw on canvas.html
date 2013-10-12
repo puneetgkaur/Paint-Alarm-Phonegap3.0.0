@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <style>
+      body {
+        margin: 0px;
+        padding: 0px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container"></div>
+    <script src="kinetic-v4.5.5.min.js"></script>
+    <script defer="defer">
+      
+      var stage = new Kinetic.Stage({
+        container: 'container',
+        width: 578,
+        height: 200
+      });
+      var shapesLayer = new Kinetic.Layer();
+     
+      var start=0;
+      
+      stage.on('mousedown',function(){
+        start=1;
+        var context=shapesLayer.getContext();
+        context.beginPath();
+        var mousePos = stage.getMousePosition();
+        var x = mousePos.x;
+        var y = mousePos.y;
+        context.moveTo(x,y);
+      });
+      
+   
+      stage.on('mousemove', function() {
+        if(start)
+         {
+           var mousePos = stage.getMousePosition();
+           var x = mousePos.x;
+           var y = mousePos.y;
+          
+           var context=shapesLayer.getContext();
+           context.lineTo(x,y);
+           context.stroke();           
+         }
+      });
+
+      
+      stage.on('mouseup', function() {
+        start=0;
+      });
+
+      stage.add(shapesLayer);
+
+    </script>
+  </body>
+</html>

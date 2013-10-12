@@ -1,0 +1,285 @@
+$('#foo').bind('click', function() {
+alert('User clicked on "foo."');
+});
+
+$('#foo').bind({
+click: function() {
+// do something on click
+},
+mouseenter: function() {
+// do something on mouseenter
+}
+});
+
+$('#foo').bind('click', function() {
+alert($(this).text());
+});
+
+1	$.fn.drawMouse = function() {
+02	    var clicked = 0;
+03	    var start = function(e) {
+04	        clicked = 1;
+05	        ctx.beginPath();
+06	        ctx.moveTo(e.pageX, e.pageY);
+07	    };
+08	    var move = function(e) {
+09	        if(clicked){
+10	            ctx.lineTo(e.pageX, e.pageY);
+11	            ctx.stroke();
+12	        }
+13	    };
+14	    var stop = function(e) {
+15	        clicked = 0;
+16	    };
+17	    $(this).mousedown(start);
+18	    $(this).mousemove(move);
+19	    $(this).mouseup(stop);
+20	};
+
+
+object.onmouseover=function(){SomeJavaScriptCode};
+
+var canvas = document.querySelector('#paint');
+	var ctx = canvas.getContext('2d');
+	
+	var sketch = document.querySelector('#sketch');
+	var sketch_style = getComputedStyle(sketch);
+	canvas.width = parseInt(sketch_style.getPropertyValue('width'));
+	canvas.height = parseInt(sketch_style.getPropertyValue('height'));
+
+	var mouse = {x: 0, y: 0};
+	 
+	/* Mouse Capturing Work */
+	canvas.addEventListener('mousemove', function(e) {
+		mouse.x = e.pageX - this.offsetLeft;
+		mouse.y = e.pageY - this.offsetTop;
+	}, false);
+	
+	/* Drawing on Paint App */
+	ctx.lineWidth = 5;
+	ctx.lineJoin = 'round';
+	ctx.lineCap = 'round';
+	ctx.strokeStyle = 'blue';
+	 
+	canvas.addEventListener('mousedown', function(e) {
+			ctx.beginPath();
+			ctx.moveTo(mouse.x, mouse.y);
+	 
+			canvas.addEventListener('mousemove', onPaint, false);
+	}, false);
+	 
+	canvas.addEventListener('mouseup', function() {
+			canvas.removeEventListener('mousemove', onPaint, false);
+	}, false);
+	 
+	var onPaint = function() {
+			ctx.lineTo(mouse.x, mouse.y);
+			ctx.stroke();
+	};
+
+
+
+/*
+
+       		var c=$("#canvas_paint")[0]
+		var ctx=c.getContext("2d");
+
+
+                var canvas_draw=0;
+                
+
+		$( document ).on( "vmousedown", "#canvas_paint", function(e) {
+		     	        canvas_draw = 1;
+				ctx.beginPath();
+				ctx.moveTo(e.PageX, e.PageY);
+				//console.log("%d %d",e.PageX,e.PageY)           
+		});
+		$( document ).on( "vmousemove", "#canvas_paint", function(e) {
+				if(canvas_draw){
+				    ctx.lineTo(e.PageX, e.PageY);
+				    ctx.stroke();
+				}       
+		});
+
+		$( document ).on( "vmouseup", "#canvas_paint", function(e) {
+				canvas_draw = 0;    
+		});
+
+
+/*
+function draw()
+{
+	var canvas = document.querySelector('#canvas_paint');
+	var context = canvas.getContext('2d');
+
+        canvas.addEventListener('mousedown', mousedown, false);
+        canvas.addEventListener('mousemove', mousemove, false);
+        canvas.addEventListener('mouseup',   mouseup, false);
+
+         started = false;
+
+     function mousedown (e) {
+        context.beginPath();
+        context.strokeStyle='black';
+        context.lineJoin='round';
+        //context.lineWidth='5';
+        context.moveTo(e.PageX, e.PageY);
+        started = true;
+    };
+     function mousemove(e) {
+      if (started) {
+        context.lineTo(e.PageX, e.PageY);
+        context.stroke();
+        
+      }
+    };
+    function mouseup(e) {
+      if (started) {
+        //mousemove(e);
+        started = false;
+      }
+    };
+    
+}
+*/
+/*
+function pencil () {
+    rectan=0;
+    pen=1;
+    color='black';    
+    var tool = this;
+    this.started = false;
+    this.mousedown = function (e) {
+        context.beginPath();
+        context.strokeStyle=color;
+        context.lineJoin='round';
+        context.lineWidth=size;
+        context.moveTo(e._x, e._y);
+        tool.started = true;
+        
+    };
+    this.mousemove = function (e) {
+      if (tool.started) {
+        context.lineTo(e._x, e._y);
+        if(pen==1&&rectan==0){
+        context.stroke();
+        }
+      }
+    };
+    this.mouseup = function (e) {
+      if (tool.started) {
+        tool.mousemove(e);
+        tool.started = false;
+      }
+    };
+    
+}
+function mousepoint (e) {
+    if (e.layerX || e.layerX == 0) { 
+      e._x = e.layerX;
+      e._y = e.layerY;
+    } else if (e.offsetX || e.offsetX == 0) { 
+      e._x = e.offsetX;
+      e._y = e.offsetY;
+    }
+    var func = tool[e.type];
+    if (func) {
+      func(e);
+    }
+}
+*/
+/*
+$(document).on('pageinit','#Paint', function(){
+        draw();
+});
+*/
+
+
+
+(function() {
+	var canvas = document.querySelector('#paint');
+	var ctx = canvas.getContext('2d');
+	
+	var sketch = document.querySelector('#sketch');
+	var sketch_style = getComputedStyle(sketch);
+	canvas.width = parseInt(sketch_style.getPropertyValue('width'));
+	canvas.height = parseInt(sketch_style.getPropertyValue('height'));
+
+	var mouse = {x: 0, y: 0};
+	var last_mouse = {x: 0, y: 0};
+	
+	/* Mouse Capturing Work */
+	canvas.addEventListener('mousemove', function(e) {
+		last_mouse.x = mouse.x;
+		last_mouse.y = mouse.y;
+		
+		mouse.x = e.pageX - this.offsetLeft;
+		mouse.y = e.pageY - this.offsetTop;
+	}, false);
+	
+	
+	/* Drawing on Paint App */
+	ctx.lineWidth = 5;
+	ctx.lineJoin = 'round';
+	ctx.lineCap = 'round';
+	ctx.strokeStyle = 'blue';
+	
+	canvas.addEventListener('mousedown', function(e) {
+		canvas.addEventListener('mousemove', onPaint, false);
+	}, false);
+	
+	canvas.addEventListener('mouseup', function() {
+		canvas.removeEventListener('mousemove', onPaint, false);
+	}, false);
+	
+	var onPaint = function() {
+		ctx.beginPath();
+		ctx.moveTo(last_mouse.x, last_mouse.y);
+		ctx.lineTo(mouse.x, mouse.y);
+		ctx.closePath();
+		ctx.stroke();
+	};
+  
+}());
+
+
+/****----------------------IN THE MAIN FILE - INDEX.HTML--------------------****/
+
+
+            <!--THE POP UP-->
+            <div class="ui-grid-solo">
+
+                 <div class="ui-block-a">
+			       
+                        <center>
+			<div data-role="controlgroup" data-type="horizontal" >
+			<span data-role="button" data-icon="back" data-theme="b" data-iconpos="notext" data-inline="true" data-mini="true">Undo</span><!--Undo Change-->
+			<span data-role="button" data-icon="forward" data-theme="b" data-iconpos="notext" data-inline="true" data-mini="true">Redo</span><!--Redo change-->
+       		        <a href="#popupTools" data-rel="popup" data-role="button" data-theme="b" data-position-to="window" data-iconpos="notext" data-icon="grid" data-mini="true">Tools list</a><!--To display the tool list-->
+
+			<span data-role="button" data-icon="arrow-d" data-theme="b" data-iconpos="notext" data-inline="true" data-mini="true">Redo</span><!--To load an image to the canvas to edit it-->
+
+			<span data-role="button" data-icon="gear" data-theme="b" data-iconpos="notext" data-inline="true" data-mini="true">Settings</span><!--Settings related to the canvas - height,width and others-->
+			</div>
+                        </center>
+        		<div data-role="popup" id="popupTools" data-overlay-theme="a">
+
+					                        <a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a><!--/close button-->
+
+								<div></div>
+
+								<div class="ui-grid-e">
+									<a href="#" class="ui-block-a" data-rel="back" data-role="button" data-inline="true" data-theme="c" data-mini="true"><img src="images/paint/pencil1.jpg"  width="25px" height="25px"></a>
+									<a href="#" class="ui-block-b" data-rel="back" data-role="button" data-inline="true" data-theme="c" data-mini="true"><img src="images/paint/shapes.png"  width="25px" height="25px"></a>
+									<a href="#" class="ui-block-c" data-rel="back" data-role="button" data-inline="true" data-theme="c" data-mini="true"><img src="images/paint/pencil.png"  width="25px" height="25px"></a>
+									<a href="#" class="ui-block-d" data-rel="back" data-role="button" data-inline="true" data-theme="c" data-mini="true"><img src="images/paint/pencil.png"  width="25px" height="25px"></a>
+									<a href="#" class="ui-block-e" data-rel="back" data-role="button" data-inline="true" data-theme="c" data-mini="true"><img src="images/paint/pencil.png"  width="25px" height="25px"></a>
+								</div><!-- /grid-e -->
+
+                        </div><!--/pop up-->
+
+	         </div><!--/ui-block-a-->
+
+            </div><!--/ui-grid-solo-->
+
+

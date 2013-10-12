@@ -1,0 +1,23 @@
+{
+  "wallpaper1" : {
+    "itemType": "CONSUMABLE",
+    "price": 0.00,
+    "title": "wallpaper1",
+    "description": "A nice wallpaper", 
+    "smallIconUrl": "http://some/image.jpg"
+  },
+  "wallpaper2" : {
+    "itemType": "CONSUMABLE",
+    "price": 0.00,
+    "title": "wallpaper2",
+    "description": "A nice wallpaper", 
+    "smallIconUrl": "http://some/image.jpg"
+  },
+  "wallpaper3" : {
+    "itemType": "CONSUMABLE",
+    "price": 0.00,
+    "title": "wallpaper3",
+    "description": "A nice wallpaper",
+    "smallIconUrl": "http://some/image.jpg"
+  }
+}

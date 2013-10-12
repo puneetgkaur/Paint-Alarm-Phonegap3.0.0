@@ -1,0 +1,9 @@
+# view AndroidManifest.xml #generated:73
+-keep class com.amazon.inapp.purchasing.ResponseReceiver { <init>(...); }
+
+# view AndroidManifest.xml #generated:60
+-keep class com.dropbox.client2.android.AuthActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:52
+-keep class com.rossmartin.dropbox.AppMainActivity { <init>(...); }
+
